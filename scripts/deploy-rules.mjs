@@ -1,7 +1,7 @@
 // Publishes firestore.rules and storage.rules to the Firebase project.
 //
 // Usage: node scripts/deploy-rules.mjs <service-account.json> [storage-bucket]
-// Uses the same local service-account key as seed-cars.mjs (never committed).
+// Uses the same local service-account key as seed-boats.mjs (never committed).
 
 import { readFileSync } from "node:fs";
 import { cert, initializeApp } from "firebase-admin/app";

@@ -8,15 +8,18 @@ import {
   onSnapshot,
   orderBy,
   query,
+  where,
   type QueryConstraint,
 } from "firebase/firestore";
 import { db, isFirebaseConfigured } from "@/lib/firebase";
-import { DEFAULT_SETTINGS, type DealershipSettings } from "@/lib/types";
+import { DEFAULT_SETTINGS, type SiteSettings } from "@/lib/types";
 
 interface CollectionOptions {
   orderByField?: string;
   direction?: "asc" | "desc";
   max?: number;
+  /** Filtra por `field in values`. El sitio público lo necesita para cumplir las reglas de lectura. */
+  whereIn?: { field: string; values: string[] };
   enabled?: boolean;
 }
 
@@ -25,17 +28,21 @@ interface Snapshot<T> {
   error: string | null;
 }
 
-/** Live subscription to a Firestore collection. Each doc is returned with its `id`. */
+/** Suscripción en vivo a una colección de Firestore. Cada documento incluye su `id`. */
 export function useCollection<T extends { id: string }>(
   name: string,
-  { orderByField, direction = "desc", max, enabled = true }: CollectionOptions = {},
+  { orderByField, direction = "desc", max, whereIn, enabled = true }: CollectionOptions = {},
 ) {
   const [snap, setSnap] = useState<Snapshot<T> | null>(null);
   const active = enabled && isFirebaseConfigured;
+  // Primitivos estables: evitan re-suscribirse si el llamador crea el array en cada render.
+  const whereField = whereIn?.field ?? "";
+  const whereValues = whereIn?.values.join(",") ?? "";
 
   useEffect(() => {
     if (!active) return;
     const constraints: QueryConstraint[] = [];
+    if (whereField) constraints.push(where(whereField, "in", whereValues.split(",")));
     if (orderByField) constraints.push(orderBy(orderByField, direction));
     if (max) constraints.push(limitTo(max));
 
@@ -48,7 +55,7 @@ export function useCollection<T extends { id: string }>(
         }),
       (err) => setSnap({ data: [], error: err.message }),
     );
-  }, [active, name, orderByField, direction, max]);
+  }, [active, name, orderByField, direction, max, whereField, whereValues]);
 
   return {
     data: snap?.data ?? [],
@@ -57,16 +64,16 @@ export function useCollection<T extends { id: string }>(
   };
 }
 
-/** Live dealership settings, falling back to defaults until saved. */
+/** Configuración del sitio en vivo; usa los valores por defecto hasta que se guarde. */
 export function useSettings() {
-  const [settings, setSettings] = useState<DealershipSettings | null>(null);
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
     if (!isFirebaseConfigured) return;
     return onSnapshot(
-      doc(db, "settings", "dealership"),
+      doc(db, "settings", "site"),
       (result) =>
-        setSettings({ ...DEFAULT_SETTINGS, ...(result.data() as Partial<DealershipSettings>) }),
+        setSettings({ ...DEFAULT_SETTINGS, ...(result.data() as Partial<SiteSettings>) }),
       () => setSettings(DEFAULT_SETTINGS),
     );
   }, []);

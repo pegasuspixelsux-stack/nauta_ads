@@ -20,7 +20,7 @@ async function ensureProfile(user: User, displayName?: string) {
   if ((await getDoc(ref)).exists()) return;
   await setDoc(ref, {
     email: user.email ?? "",
-    displayName: displayName || user.displayName || user.email?.split("@")[0] || "Operator",
+    displayName: displayName || user.displayName || user.email?.split("@")[0] || "Operador",
     role: "pending",
     createdAt: Date.now(),
   });
@@ -52,19 +52,19 @@ export function authErrorMessage(error: unknown) {
     case "auth/invalid-credential":
     case "auth/wrong-password":
     case "auth/user-not-found":
-      return "Incorrect email or password.";
+      return "Correo o contraseña incorrectos.";
     case "auth/email-already-in-use":
-      return "An account with this email already exists.";
+      return "Ya existe una cuenta con este correo.";
     case "auth/weak-password":
-      return "Password must be at least 6 characters.";
+      return "La contraseña debe tener al menos 6 caracteres.";
     case "auth/invalid-email":
-      return "Enter a valid email address.";
+      return "Ingresá un correo válido.";
     case "auth/popup-closed-by-user":
     case "auth/cancelled-popup-request":
       return "";
     case "auth/too-many-requests":
-      return "Too many attempts. Try again in a few minutes.";
+      return "Demasiados intentos. Probá de nuevo en unos minutos.";
     default:
-      return "Something went wrong. Please try again.";
+      return "Algo salió mal. Intentá de nuevo.";
   }
 }

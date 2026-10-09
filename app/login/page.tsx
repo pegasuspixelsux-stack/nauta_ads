@@ -64,34 +64,34 @@ export default function LoginPage() {
         className="relative w-full max-w-md"
       >
         <Link href="/" className="mb-10 block text-center text-lg font-bold tracking-tight">
-          Super<span className="text-slate-500">Dealio</span>
+          Nauta
         </Link>
 
         <div className="rounded-3xl border border-ink/10 bg-slate-900/60 p-8 shadow-2xl backdrop-blur-xl">
           <h1 className="text-2xl font-bold tracking-tight text-slate-100">
-            {isLogin ? "Welcome back" : "Create your account"}
+            {isLogin ? "Bienvenido de nuevo" : "Creá tu cuenta"}
           </h1>
           <p className="mt-2 text-sm text-slate-400">
-            {isLogin ? "Sign in to manage your dealership." : "Register to access the dashboard."}
+            {isLogin ? "Ingresá para gestionar el marketplace." : "Registrate para acceder al panel."}
           </p>
 
           {!isFirebaseConfigured && (
             <p className="mt-6 rounded-xl border border-amber-500/20 bg-amber-500/10 px-4 py-3 text-sm text-amber-700 dark:text-amber-300">
-              Firebase isn&apos;t configured. Copy <code>.env.example</code> to{" "}
-              <code>.env.local</code> and add your project keys.
+              Firebase no está configurado. Copiá <code>.env.example</code> a{" "}
+              <code>.env.local</code> y agregá las claves de tu proyecto.
             </p>
           )}
 
           <form onSubmit={submit} className="mt-8 grid gap-5">
             {!isLogin && (
-              <Field label="Full name">
+              <Field label="Nombre completo">
                 <Input name="name" required autoComplete="name" />
               </Field>
             )}
-            <Field label="Email">
+            <Field label="Correo">
               <Input name="email" type="email" required autoComplete="email" />
             </Field>
-            <Field label="Password">
+            <Field label="Contraseña">
               <Input
                 name="password"
                 type="password"
@@ -108,13 +108,13 @@ export default function LoginPage() {
             )}
 
             <Button type="submit" size="lg" disabled={disabled}>
-              {busy ? "Please wait…" : isLogin ? "Sign in" : "Create account"}
+              {busy ? "Un momento…" : isLogin ? "Ingresar" : "Crear cuenta"}
             </Button>
           </form>
 
           <div className="my-6 flex items-center gap-4 text-xs text-slate-500">
             <span className="h-px flex-1 bg-slate-800" />
-            or
+            o
             <span className="h-px flex-1 bg-slate-800" />
           </div>
 
@@ -125,12 +125,12 @@ export default function LoginPage() {
             disabled={disabled}
             onClick={() => void run(signInWithGoogle)}
           >
-            Continue with Google
+            Continuar con Google
           </Button>
         </div>
 
         <p className="mt-8 text-center text-sm text-slate-400">
-          {isLogin ? "New to SuperDealio?" : "Already have an account?"}{" "}
+          {isLogin ? "¿Primera vez en Nauta?" : "¿Ya tenés cuenta?"}{" "}
           <button
             type="button"
             onClick={() => {
@@ -139,7 +139,7 @@ export default function LoginPage() {
             }}
             className="font-medium text-slate-100 underline-offset-4 hover:underline"
           >
-            {isLogin ? "Create an account" : "Sign in"}
+            {isLogin ? "Crear una cuenta" : "Ingresar"}
           </button>
         </p>
       </motion.div>

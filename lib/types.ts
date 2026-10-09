@@ -1,23 +1,47 @@
-export type CarStatus = "available" | "reserved" | "sold";
+/** Ciclo de vida de un aviso: revisión → link de pago → publicado → vendido. */
+export type BoatStatus = "pending_review" | "awaiting_payment" | "active" | "reserved" | "sold";
 
-export interface Car {
+export type BoatCategory = "Yate" | "Velero" | "Lancha" | "Semirrígido" | "Moto de agua" | "Otro";
+export type Propulsion = "Fuera de borda" | "Intraborda" | "Vela" | "Sin motor";
+export type FlagType = "Uruguaya" | "Extranjera" | "Otra";
+export type DocumentationStatus = "Al día" | "En trámite" | "Sin documentación";
+export type ListingPlan = "individual" | "broker_fleet";
+export type Condition = "Nueva" | "Usada";
+
+export interface Boat {
   id: string;
-  make: string;
+  builder: string;
   model: string;
-  bodyType: string;
+  category: BoatCategory;
+  condition: Condition;
   year: number;
   price: number;
-  mileage: number;
-  transmission: string;
-  fuel: string;
-  color: string;
+  /** Eslora en metros. */
+  length: number;
+  engineHours: number;
+  propulsion: Propulsion;
+  hullIdentificationNumber: string;
+  flagType: FlagType;
+  documentationStatus: DocumentationStatus;
+  portLocation: string;
   description: string;
-  status: CarStatus;
+  status: BoatStatus;
   featured: boolean;
   images: string[];
   imagePaths: string[];
+  plan: ListingPlan;
+  paid: boolean;
+  /** Link de pago que el administrador envía al anunciante tras la revisión. */
+  paymentUrl: string;
   createdAt: number;
   soldAt: number | null;
+}
+
+/** Datos de contacto del anunciante. Se guardan en boats/{id}/private/owner (solo staff). */
+export interface BoatOwner {
+  name: string;
+  email: string;
+  phone: string;
 }
 
 export type LeadStatus = "new" | "contacted" | "converted";
@@ -28,8 +52,8 @@ export interface Lead {
   email: string;
   phone: string;
   message: string;
-  carId: string | null;
-  carLabel: string;
+  boatId: string | null;
+  boatLabel: string;
   status: LeadStatus;
   createdAt: number;
 }
@@ -44,7 +68,7 @@ export interface UserProfile {
   createdAt: number;
 }
 
-export interface DealershipSettings {
+export interface SiteSettings {
   name: string;
   currency: string;
   email: string;
@@ -55,8 +79,8 @@ export interface DealershipSettings {
   weeklyDigest: boolean;
 }
 
-export const DEFAULT_SETTINGS: DealershipSettings = {
-  name: "SuperDealio",
+export const DEFAULT_SETTINGS: SiteSettings = {
+  name: "Nauta",
   currency: "USD",
   email: "",
   phone: "",

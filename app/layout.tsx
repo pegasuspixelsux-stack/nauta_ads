@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SuperDealio",
-  description: "Premium pre-owned and new vehicles, curated by SuperDealio.",
+  title: "Nauta · Marketplace náutico",
+  description: "Yates, veleros, lanchas, motores y servicios náuticos nuevos y usados. Marketplace y directorio náutico del Río de la Plata.",
 };
 
 // Runs before first paint so the saved (or system) theme never flashes the wrong colors.
@@ -24,7 +24,7 @@ const themeScript = `try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      lang="es"
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >

@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nauta
 
-## Getting Started
+Marketplace y directorio náutico (embarcaciones nuevas y usadas, motores y repuestos, servicios, trámites y eventos). Next.js App Router · TypeScript · Tailwind CSS · Firebase (Auth, Firestore, Storage) · Vercel.
 
-First, run the development server:
+## Desarrollo
 
 ```bash
+cp .env.example .env.local   # completá las claves de Firebase
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Flujo de publicación
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Cualquier persona publica en `/publicar` **sin registrarse**. Las fotos se comprimen a WebP en el dispositivo antes de subir.
+2. El aviso se crea con estado `pending_review` en `boats/{id}`; el contacto del anunciante va a `boats/{id}/private/owner` (solo lo lee el staff).
+3. En `/dashboard/boats` el administrador revisa fotos, especificaciones y estado legal (bandera, documentación, HIN), carga el **link de pago** ($99 particulares / paquete para brokers) y pasa el aviso a `awaiting_payment`.
+4. Con el **pago confirmado** el aviso pasa a `active` y aparece en el sitio público.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Scripts
 
-## Learn More
+- `node scripts/seed-boats.mjs <service-account.json>`: carga datos de demostración.
+- `node scripts/deploy-rules.mjs`: publica `firestore.rules` y `storage.rules`.
+- `node scripts/make-admin.mjs`: crea el primer administrador.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> Las colecciones `cars`, `leads` antiguas y el documento `settings/dealership` de la versión previa ya no se usan; la configuración vive en `settings/site`.

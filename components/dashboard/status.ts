@@ -1,4 +1,4 @@
-import type { CarStatus, LeadStatus } from "@/lib/types";
+import type { BoatStatus, LeadStatus } from "@/lib/types";
 
 export const leadTone = {
   new: "blue",
@@ -6,8 +6,16 @@ export const leadTone = {
   converted: "green",
 } as const satisfies Record<LeadStatus, string>;
 
-export const carTone = {
-  available: "green",
+export const leadLabel: Record<LeadStatus, string> = {
+  new: "Nuevo",
+  contacted: "Contactado",
+  converted: "Concretado",
+};
+
+export const boatTone = {
+  pending_review: "blue",
+  awaiting_payment: "amber",
+  active: "green",
   reserved: "amber",
   sold: "neutral",
-} as const satisfies Record<CarStatus, string>;
+} as const satisfies Record<BoatStatus, string>;

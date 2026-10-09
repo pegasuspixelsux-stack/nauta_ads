@@ -1,6 +1,7 @@
 rules_version = '2';
 
-// Car photos are public to read; only approved staff can upload or delete them.
+// Fotos de embarcaciones: lectura pública. Cualquiera puede subir una foto nueva (el formulario
+// de publicación no exige cuenta), pero solo el staff puede reemplazar o borrar.
 service firebase.storage {
   match /b/{bucket}/o {
     function isStaff() {
@@ -10,12 +11,11 @@ service firebase.storage {
              in ['admin', 'manager', 'operator'];
     }
 
-    match /cars/{carId}/{fileName} {
+    match /boats/{boatId}/{fileName} {
       allow read: if true;
-      allow write: if isStaff()
-                   && request.resource.size < 10 * 1024 * 1024
-                   && request.resource.contentType.matches('image/.*');
-      allow delete: if isStaff();
+      allow create: if request.resource.size < 5 * 1024 * 1024
+                    && request.resource.contentType.matches('image/.*');
+      allow update, delete: if isStaff();
     }
   }
 }

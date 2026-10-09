@@ -32,14 +32,14 @@ export function ThemeToggle({ className }: { className?: string }) {
   };
 
   const options: { value: Theme; label: string; icon: typeof Sun }[] = [
-    { value: "light", label: "Light", icon: Sun },
-    { value: "dark", label: "Dark", icon: Moon },
+    { value: "light", label: "Claro", icon: Sun },
+    { value: "dark", label: "Oscuro", icon: Moon },
   ];
 
   return (
     <div
       role="radiogroup"
-      aria-label="Color theme"
+      aria-label="Tema de color"
       className={cn(
         "inline-flex rounded-full border border-slate-800/80 bg-ink/5 p-1",
         className,

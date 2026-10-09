@@ -4,7 +4,7 @@ import { storage } from "@/lib/firebase";
 const MAX_DIMENSION = 1600;
 const WEBP_QUALITY = 0.8;
 
-/** Downscales an image on-device and re-encodes it as WebP before upload. */
+/** Reduce la imagen en el dispositivo y la recodifica a WebP antes de subirla. */
 export async function compressToWebP(file: File): Promise<Blob> {
   const bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
   const scale = Math.min(1, MAX_DIMENSION / Math.max(bitmap.width, bitmap.height));
@@ -23,9 +23,9 @@ export async function compressToWebP(file: File): Promise<Blob> {
   );
 }
 
-export async function uploadCarImage(carId: string, file: File) {
+export async function uploadBoatImage(boatId: string, file: File) {
   const blob = await compressToWebP(file);
-  const path = `cars/${carId}/${crypto.randomUUID()}.webp`;
+  const path = `boats/${boatId}/${crypto.randomUUID()}.webp`;
   const storageRef = ref(storage, path);
   await uploadBytes(storageRef, blob, { contentType: "image/webp" });
   return { url: await getDownloadURL(storageRef), path };

@@ -1,8 +1,9 @@
 rules_version = '2';
 
-// Public: browse cars, read dealership settings, submit an inquiry (lead).
-// Staff (admin / manager / operator): manage cars and leads.
-// New sign-ups start as "pending" and can do nothing until an admin promotes them.
+// Público: ver avisos aprobados, leer la configuración, enviar una consulta (lead) y
+// publicar un aviso sin cuenta (queda en revisión).
+// Staff (admin / manager / operator): gestiona avisos y consultas.
+// Los registros nuevos arrancan como "pending" y no pueden hacer nada hasta que un admin los promueva.
 service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() {
@@ -25,14 +26,49 @@ service cloud.firestore {
       return isStaff() && role() == 'admin';
     }
 
-    match /cars/{carId} {
-      allow read: if true;
-      allow write: if isStaff();
+    match /boats/{boatId} {
+      // Público: solo avisos ya aprobados y pagos. El staff ve todo (incluye los en revisión).
+      allow read: if resource.data.status in ['active', 'reserved'] || isStaff();
+      // Cualquiera puede enviar un aviso sin registrarse, siempre que entre "en revisión",
+      // sin pago ni destacado: solo el staff activa, cobra y destaca.
+      allow create: if request.resource.data.status == 'pending_review'
+                    && request.resource.data.featured == false
+                    && request.resource.data.paid == false
+                    && request.resource.data.paymentUrl == ''
+                    && request.resource.data.plan in ['individual', 'broker_fleet']
+                    && request.resource.data.builder is string
+                    && request.resource.data.builder.size() > 0
+                    && request.resource.data.builder.size() <= 100
+                    && request.resource.data.model is string
+                    && request.resource.data.model.size() <= 100
+                    && request.resource.data.description is string
+                    && request.resource.data.description.size() <= 5000
+                    && request.resource.data.price is number
+                    && request.resource.data.length is number
+                    && request.resource.data.images is list
+                    && request.resource.data.images.size() <= 12
+                    && request.resource.data.soldAt == null;
+      allow update, delete: if isStaff();
+
+      // Contacto del anunciante: lo puede crear cualquiera junto con su aviso, solo lo lee el staff.
+      match /private/{docId} {
+        allow create: if docId == 'owner'
+                      && existsAfter(/databases/$(database)/documents/boats/$(boatId))
+                      && getAfter(/databases/$(database)/documents/boats/$(boatId)).data.status == 'pending_review'
+                      && request.resource.data.keys().hasOnly(['name', 'email', 'phone'])
+                      && request.resource.data.name is string
+                      && request.resource.data.name.size() <= 200
+                      && request.resource.data.email is string
+                      && request.resource.data.email.size() <= 320
+                      && request.resource.data.phone is string
+                      && request.resource.data.phone.size() <= 50;
+        allow read, update, delete: if isStaff();
+      }
     }
 
     match /leads/{leadId} {
       allow create: if request.resource.data.keys().hasOnly(
-                         ['name', 'email', 'phone', 'message', 'carId', 'carLabel', 'status', 'createdAt'])
+                         ['name', 'email', 'phone', 'message', 'boatId', 'boatLabel', 'status', 'createdAt'])
                     && request.resource.data.name is string
                     && request.resource.data.name.size() > 0
                     && request.resource.data.name.size() <= 200
@@ -42,8 +78,18 @@ service cloud.firestore {
                     && request.resource.data.phone.size() <= 50
                     && request.resource.data.message is string
                     && request.resource.data.message.size() <= 2000
-                    && request.resource.data.carLabel is string
+                    && request.resource.data.boatLabel is string
                     && request.resource.data.status == 'new'
+                    && request.resource.data.createdAt is number;
+      allow read, update, delete: if isStaff();
+    }
+
+    // Boletín: cualquiera puede suscribirse; solo el staff ve la lista.
+    match /subscribers/{subId} {
+      allow create: if request.resource.data.keys().hasOnly(['email', 'createdAt'])
+                    && request.resource.data.email is string
+                    && request.resource.data.email.matches('.+@.+')
+                    && request.resource.data.email.size() <= 320
                     && request.resource.data.createdAt is number;
       allow read, update, delete: if isStaff();
     }

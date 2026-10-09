@@ -11,20 +11,21 @@ import { Field, Input, Select, Textarea } from "@/components/ui/field";
 import { Modal } from "@/components/ui/modal";
 import { db } from "@/lib/firebase";
 import { useCollection } from "@/lib/firestore";
-import type { Car, Lead, LeadStatus } from "@/lib/types";
+import { boatLabel } from "@/lib/boats";
+import type { Boat, Lead, LeadStatus } from "@/lib/types";
 import { timeAgo } from "@/lib/utils";
 
 const columns: { status: LeadStatus; title: string }[] = [
-  { status: "new", title: "New" },
-  { status: "contacted", title: "Contacted" },
-  { status: "converted", title: "Converted" },
+  { status: "new", title: "Nuevas" },
+  { status: "contacted", title: "Contactadas" },
+  { status: "converted", title: "Concretadas" },
 ];
 
 const order: LeadStatus[] = ["new", "contacted", "converted"];
 
 export default function LeadsPage() {
   const { data: leads, loading, error } = useCollection<Lead>("leads", { orderByField: "createdAt" });
-  const { data: cars } = useCollection<Car>("cars");
+  const { data: boats } = useCollection<Boat>("boats");
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [actionError, setActionError] = useState("");
@@ -34,7 +35,7 @@ export default function LeadsPage() {
     try {
       await action();
     } catch {
-      setActionError("That change couldn't be saved. Check your permissions and try again.");
+      setActionError("No se pudo guardar el cambio. Revisá tus permisos e intentá de nuevo.");
     }
   };
 
@@ -46,7 +47,7 @@ export default function LeadsPage() {
   const create = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const car = cars.find((item) => item.id === form.get("carId"));
+    const boat = boats.find((item) => item.id === form.get("boatId"));
     setSaving(true);
     await guard(async () => {
       await addDoc(collection(db, "leads"), {
@@ -54,8 +55,8 @@ export default function LeadsPage() {
         email: String(form.get("email")),
         phone: String(form.get("phone")),
         message: String(form.get("message")),
-        carId: car?.id ?? null,
-        carLabel: car ? `${car.year} ${car.make} ${car.model}` : "",
+        boatId: boat?.id ?? null,
+        boatLabel: boat ? boatLabel(boat) : "",
         status: "new",
         createdAt: Date.now(),
       });
@@ -67,12 +68,12 @@ export default function LeadsPage() {
   return (
     <>
       <PageHeader
-        title="Leads"
-        description="Track every customer inquiry from first contact to sale."
+        title="Consultas"
+        description="Seguí cada consulta desde el primer contacto hasta la venta."
         action={
           <Button onClick={() => setOpen(true)}>
             <Plus className="size-4" />
-            Add lead
+            Agregar consulta
           </Button>
         }
       />
@@ -98,7 +99,7 @@ export default function LeadsPage() {
               </header>
 
               {items.length === 0 ? (
-                <EmptyState>{loading ? "Loading…" : "Nothing here."}</EmptyState>
+                <EmptyState>{loading ? "Cargando…" : "Nada por acá."}</EmptyState>
               ) : (
                 <ul className="grid gap-3">
                   {items.map((lead) => (
@@ -110,7 +111,7 @@ export default function LeadsPage() {
                         <div className="min-w-0">
                           <p className="truncate font-medium text-slate-100">{lead.name}</p>
                           <p className="truncate text-sm text-slate-500">
-                            {lead.carLabel || "General inquiry"}
+                            {lead.boatLabel || "Consulta general"}
                           </p>
                         </div>
                         <span className="shrink-0 text-xs text-slate-500">{timeAgo(lead.createdAt)}</span>
@@ -144,19 +145,19 @@ export default function LeadsPage() {
                       <div className="mt-4 flex items-center gap-2">
                         {status !== "new" && (
                           <Button size="sm" variant="ghost" onClick={() => move(lead, -1)}>
-                            Back
+                            Volver
                           </Button>
                         )}
                         {status !== "converted" && (
                           <Button size="sm" variant="secondary" onClick={() => move(lead, 1)}>
-                            {status === "new" ? "Mark contacted" : "Mark converted"}
+                            {status === "new" ? "Marcar contactada" : "Marcar concretada"}
                           </Button>
                         )}
                         <Button
                           size="sm"
                           variant="ghost"
                           className="ml-auto"
-                          aria-label={`Delete lead ${lead.name}`}
+                          aria-label={`Eliminar consulta de ${lead.name}`}
                           onClick={() => void guard(() => deleteDoc(doc(db, "leads", lead.id)))}
                         >
                           <Trash2 className="size-4" />
@@ -171,38 +172,38 @@ export default function LeadsPage() {
         })}
       </div>
 
-      <Modal open={open} onClose={() => setOpen(false)} title="Add lead">
+      <Modal open={open} onClose={() => setOpen(false)} title="Agregar consulta">
         <form onSubmit={create} className="grid gap-5">
           <div className="grid gap-5 sm:grid-cols-2">
-            <Field label="Name">
+            <Field label="Nombre">
               <Input name="name" required />
             </Field>
-            <Field label="Phone">
+            <Field label="Teléfono">
               <Input name="phone" type="tel" />
             </Field>
           </div>
-          <Field label="Email">
+          <Field label="Correo">
             <Input name="email" type="email" />
           </Field>
-          <Field label="Interested in">
-            <Select name="carId" defaultValue="">
-              <option value="">General inquiry</option>
-              {cars.map((car) => (
-                <option key={car.id} value={car.id}>
-                  {car.year} {car.make} {car.model}
+          <Field label="Interesado en">
+            <Select name="boatId" defaultValue="">
+              <option value="">Consulta general</option>
+              {boats.map((boat) => (
+                <option key={boat.id} value={boat.id}>
+                  {boatLabel(boat)}
                 </option>
               ))}
             </Select>
           </Field>
-          <Field label="Notes">
+          <Field label="Notas">
             <Textarea name="message" />
           </Field>
           <div className="flex justify-end gap-3">
             <Button variant="ghost" onClick={() => setOpen(false)}>
-              Cancel
+              Cancelar
             </Button>
             <Button type="submit" disabled={saving}>
-              {saving ? "Saving…" : "Add lead"}
+              {saving ? "Guardando…" : "Agregar consulta"}
             </Button>
           </div>
         </form>

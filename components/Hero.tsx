@@ -1,112 +1,97 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { Search } from "lucide-react";
-import { Input, Select } from "@/components/ui/field";
-import { BODY_TYPES } from "@/lib/sample-cars";
+import { buttonStyles } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { BookOpen, CalendarDays, Star, Cog, Ship, Wrench, type LucideIcon } from "lucide-react";
 
-export interface Filters {
-  query: string;
-  type: string;
-  maxPrice: string;
-}
+const HERO_PHOTO =
+  "https://images.unsplash.com/photo-1528154291023-a6525fabe5b4?auto=format&fit=crop&w=2000&q=80";
 
-const priceSteps = [25000, 50000, 75000, 100000, 150000];
+const SECTIONS: { label: string; href: string; icon: LucideIcon }[] = [
+  { label: "Embarcaciones", href: "/embarcaciones", icon: Ship },
+  { label: "Motores y Repuestos", href: "/motores", icon: Cog },
+  { label: "Servicios y Brokers", href: "/servicios", icon: Wrench },
+  { label: "Guía y Trámites", href: "/guia", icon: BookOpen },
+  { label: "Eventos", href: "/eventos", icon: CalendarDays },
+];
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-export function Hero({
-  filters,
-  onChange,
-}: {
-  filters: Filters;
-  onChange: (filters: Filters) => void;
-}) {
-  const set = (patch: Partial<Filters>) => onChange({ ...filters, ...patch });
-
+export function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-slate-800/80">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,color-mix(in_oklab,var(--color-slate-700)_55%,transparent),transparent),linear-gradient(to_bottom,transparent_60%,var(--color-slate-950))]"
-      />
-      <div className="relative mx-auto max-w-7xl px-6 py-16 text-center md:py-24">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease }}
-        >
-          <span className="inline-flex items-center rounded-full border border-slate-800/80 bg-ink/5 px-3.5 py-1 text-xs font-medium text-slate-300 backdrop-blur-xl">
-            New arrivals every week
-          </span>
-          <h1 className="mx-auto mt-8 max-w-4xl text-5xl font-bold tracking-tight text-slate-100 md:text-7xl">
-            Drive something extraordinary.
-          </h1>
-          <p className="mx-auto mt-6 max-w-xl text-lg text-slate-400">
-            A curated collection of exceptional vehicles, each inspected, priced fairly and ready
-            for the road.
-          </p>
-        </motion.div>
+    <>
+      <section className="relative z-10 border-b border-slate-800/80 flex min-h-[90dvh] items-center">
+        <div aria-hidden className="absolute inset-0 overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={HERO_PHOTO}
+            alt=""
+            aria-hidden
+            fetchPriority="high"
+            className="pointer-events-none absolute inset-0 size-full object-cover"
+          />
+          {/* Velo del color de la página (oscuro o claro según el tema) para mantener legible el texto. */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-slate-950/5"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,color-mix(in_oklab,var(--color-slate-700)_55%,transparent),transparent),linear-gradient(to_bottom,transparent_60%,var(--color-slate-950))]"
+          />
+        </div>
+        <div className="relative mx-auto w-full max-w-[1440px] px-6 pt-12 pb-24 text-left md:pt-16 md:pb-28">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease }}
+          >
+            <span className="mb-6 inline-flex items-center rounded-full border border-white/30 bg-white/15 gap-2 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-xl">
+              <Star className="size-4 fill-current" aria-hidden />
+              Explora • Navega • Descubre Uruguay &amp; El Mundo
+            </span>
+            <h1 className="max-w-5xl text-5xl font-semibold tracking-tight text-white drop-shadow-md md:text-7xl">
+              El Marketplace Náutico<br className="hidden md:block" /> de Referencia en el<br className="hidden md:block" /> <span className="text-sky-400">Río de la Plata</span>
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg text-white drop-shadow-md md:text-xl">
+              Compra, venta y chárter de yates, veleros y catamaranes verificados con rigurosa
+              inspección pericial naval y tramitación oficial ante Prefectura Nacional Naval (ROU).
+            </p>
+            <Link href="/embarcaciones" className={cn(buttonStyles("primary", "lg"), "mt-8")}>
+              Explorar Embarcaciones
+            </Link>
+          </motion.div>
+        </div>
 
-        <motion.form
-          role="search"
-          onSubmit={(event) => {
-            event.preventDefault();
-            document.getElementById("inventory")?.scrollIntoView({ behavior: "smooth" });
-          }}
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease }}
-          className="mx-auto mt-12 grid max-w-4xl gap-3 rounded-3xl border border-ink/10 bg-slate-900/60 p-3 shadow-2xl backdrop-blur-xl md:grid-cols-[1fr_180px_180px_auto]"
-        >
-          <div className="relative">
-            <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-slate-500" />
-            <Input
-              id="search-input"
-              type="search"
-              value={filters.query}
-              onChange={(event) => set({ query: event.target.value })}
-              placeholder="Search make or model"
-              aria-label="Search make or model"
-              className="h-12 border-transparent bg-ink/5 pl-10"
-            />
-          </div>
-          <Select
-            value={filters.type}
-            onChange={(event) => set({ type: event.target.value })}
-            aria-label="Body type"
-            className="h-12 border-transparent bg-ink/5"
+        <div className="absolute inset-x-0 bottom-0 z-10 translate-y-1/2 px-6">
+          <motion.nav
+            aria-label="Secciones principales"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease }}
+            className="mx-auto max-w-[1400px] rounded-3xl border border-ink/10 bg-slate-900/60 p-3 shadow-2xl backdrop-blur-xl"
           >
-            <option value="">All body types</option>
-            {BODY_TYPES.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </Select>
-          <Select
-            value={filters.maxPrice}
-            onChange={(event) => set({ maxPrice: event.target.value })}
-            aria-label="Maximum price"
-            className="h-12 border-transparent bg-ink/5"
-          >
-            <option value="">Any price</option>
-            {priceSteps.map((step) => (
-              <option key={step} value={step}>
-                Under ${step.toLocaleString("en-US")}
-              </option>
-            ))}
-          </Select>
-          <motion.button
-            type="submit"
-            whileTap={{ scale: 0.98 }}
-            transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            className="h-12 rounded-xl bg-slate-100 px-6 text-sm font-semibold text-slate-950 transition-colors hover:bg-slate-50"
-          >
-            Search
-          </motion.button>
-        </motion.form>
-      </div>
-    </section>
+            <ul className="grid grid-cols-5 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-5">
+              {SECTIONS.map(({ label, href, icon: Icon }) => (
+                <li key={label}>
+                  <Link
+                    href={href}
+                    className="flex h-full flex-col items-center justify-center gap-3 rounded-2xl bg-ink/5 px-2 py-4 text-center sm:px-4 sm:py-6 text-base font-semibold text-slate-100 transition-[background-color,transform] duration-200 hover:bg-ink/10 active:scale-[0.98]"
+                  >
+                    <Icon className="size-7 text-slate-400" strokeWidth={1.5} />
+                    {/* Solo íconos en celular; el nombre queda para lectores de pantalla. */}
+                    <span className="sr-only sm:not-sr-only">{label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.nav>
+        </div>
+      </section>
+      {/* Reserva el espacio de la mitad de la caja de secciones que sobresale del hero. */}
+      <div aria-hidden className="h-12 sm:h-28 lg:h-14" />
+    </>
   );
 }

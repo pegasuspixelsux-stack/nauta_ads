@@ -2,18 +2,20 @@
 
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { ArrowDownRight, ArrowUpRight, CarFront } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Ship } from "lucide-react";
 import { Badge, Card, CardHeader, EmptyState } from "@/components/ui/card";
 import { PageHeader } from "@/components/dashboard/PageHeader";
-import { leadTone } from "@/components/dashboard/status";
+import { leadLabel, leadTone } from "@/components/dashboard/status";
 import { useCollection, useSettings } from "@/lib/firestore";
-import type { Car, Lead } from "@/lib/types";
+import { boatLabel } from "@/lib/boats";
+import type { Boat, Lead } from "@/lib/types";
 import { cn, formatCurrency, formatNumber, monthRange, percentChange, timeAgo } from "@/lib/utils";
 
 interface Kpi {
   label: string;
   value: string;
-  change: number | null;
+  /** `undefined` oculta la variación (métricas sin comparación mensual). */
+  change?: number | null;
 }
 
 function inRange(value: number | null | undefined, range: { start: number; end: number }) {
@@ -21,7 +23,7 @@ function inRange(value: number | null | undefined, range: { start: number; end: 
 }
 
 export default function ControlPanelPage() {
-  const { data: cars, loading: carsLoading } = useCollection<Car>("cars", { orderByField: "createdAt" });
+  const { data: boats, loading: boatsLoading } = useCollection<Boat>("boats", { orderByField: "createdAt" });
   const { data: leads, loading: leadsLoading } = useCollection<Lead>("leads", {
     orderByField: "createdAt",
   });
@@ -32,7 +34,7 @@ export default function ControlPanelPage() {
     const lastMonth = monthRange(-1);
 
     const revenue = (range: { start: number; end: number }) =>
-      cars.filter((car) => inRange(car.soldAt, range)).reduce((sum, car) => sum + car.price, 0);
+      boats.filter((boat) => inRange(boat.soldAt, range)).reduce((sum, boat) => sum + boat.price, 0);
     const conversion = (range: { start: number; end: number }) => {
       const created = leads.filter((lead) => inRange(lead.createdAt, range));
       return created.length
@@ -48,34 +50,35 @@ export default function ControlPanelPage() {
 
     return [
       {
-        label: "Total inventory",
-        value: formatNumber(cars.filter((car) => car.status !== "sold").length),
-        change: percentChange(count(cars, thisMonth), count(cars, lastMonth)),
+        label: "Embarcaciones publicadas",
+        value: formatNumber(boats.filter((boat) => boat.status === "active" || boat.status === "reserved").length),
+        change: percentChange(count(boats, thisMonth), count(boats, lastMonth)),
       },
       {
-        label: "Active leads",
-        value: formatNumber(leads.filter((lead) => lead.status !== "converted").length),
-        change: percentChange(count(leads, thisMonth), count(leads, lastMonth)),
+        label: "Por revisar",
+        value: formatNumber(
+          boats.filter((boat) => boat.status === "pending_review" || boat.status === "awaiting_payment").length,
+        ),
       },
       {
-        label: "Monthly revenue",
+        label: "Ventas del mes (valor)",
         value: formatCurrency(revenue(thisMonth), currency),
         change: percentChange(revenue(thisMonth), revenue(lastMonth)),
       },
       {
-        label: "Conversion rate",
+        label: "Conversión de consultas",
         value: `${overallConversion.toFixed(1)}%`,
         change: percentChange(conversion(thisMonth), conversion(lastMonth)),
       },
     ];
-  }, [cars, leads, currency]);
+  }, [boats, leads, currency]);
 
-  const latestCars = cars.slice(0, 5);
+  const latestBoats = boats.slice(0, 5);
   const latestLeads = leads.slice(0, 5);
 
   return (
     <>
-      <PageHeader title="Control Panel" description="A live overview of your dealership." />
+      <PageHeader title="Panel de control" description="Un resumen en vivo de Nauta." />
 
       <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
         {kpis.map((kpi, index) => (
@@ -88,7 +91,7 @@ export default function ControlPanelPage() {
             <Card className="p-6">
               <p className="text-sm font-medium text-slate-400">{kpi.label}</p>
               <p className="mt-3 text-4xl font-bold tracking-tight text-slate-100">
-                {carsLoading || leadsLoading ? "–" : kpi.value}
+                {boatsLoading || leadsLoading ? "–" : kpi.value}
               </p>
               <Change value={kpi.change} />
             </Card>
@@ -98,29 +101,29 @@ export default function ControlPanelPage() {
 
       <div className="mt-10 grid gap-6 xl:grid-cols-2">
         <Card>
-          <CardHeader title="Latest cars entered" description="Recently added inventory" />
-          {latestCars.length === 0 ? (
-            <EmptyState>{carsLoading ? "Loading…" : "No vehicles yet."}</EmptyState>
+          <CardHeader title="Últimos avisos recibidos" description="Embarcaciones agregadas recientemente" />
+          {latestBoats.length === 0 ? (
+            <EmptyState>{boatsLoading ? "Cargando…" : "Todavía no hay embarcaciones."}</EmptyState>
           ) : (
             <ul className="divide-y divide-slate-800/80">
-              {latestCars.map((car) => (
-                <li key={car.id} className="flex items-center gap-4 px-6 py-4">
+              {latestBoats.map((boat) => (
+                <li key={boat.id} className="flex items-center gap-4 px-6 py-4">
                   <div className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-slate-800/60 text-slate-600">
-                    {car.images[0] ? (
+                    {boat.images[0] ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={car.images[0]} alt="" className="size-full object-cover" />
+                      <img src={boat.images[0]} alt="" className="size-full object-cover" />
                     ) : (
-                      <CarFront className="size-5" />
+                      <Ship className="size-5" />
                     )}
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium text-slate-100">
-                      {car.year} {car.make} {car.model}
+                      {boatLabel(boat)}
                     </p>
-                    <p className="text-sm text-slate-500">{timeAgo(car.createdAt)}</p>
+                    <p className="text-sm text-slate-500">{timeAgo(boat.createdAt)}</p>
                   </div>
                   <p className="text-sm font-semibold text-slate-100">
-                    {formatCurrency(car.price, currency)}
+                    {formatCurrency(boat.price, currency)}
                   </p>
                 </li>
               ))}
@@ -129,9 +132,9 @@ export default function ControlPanelPage() {
         </Card>
 
         <Card>
-          <CardHeader title="Latest leads" description="Incoming customer inquiries" />
+          <CardHeader title="Últimas consultas" description="Consultas entrantes de compradores" />
           {latestLeads.length === 0 ? (
-            <EmptyState>{leadsLoading ? "Loading…" : "No leads yet."}</EmptyState>
+            <EmptyState>{leadsLoading ? "Cargando…" : "Todavía no hay consultas."}</EmptyState>
           ) : (
             <ul className="divide-y divide-slate-800/80">
               {latestLeads.map((lead) => (
@@ -139,11 +142,11 @@ export default function ControlPanelPage() {
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium text-slate-100">{lead.name}</p>
                     <p className="truncate text-sm text-slate-500">
-                      {lead.carLabel || "General inquiry"} · {timeAgo(lead.createdAt)}
+                      {lead.boatLabel || "Consulta general"} · {timeAgo(lead.createdAt)}
                     </p>
                   </div>
-                  <Badge tone={leadTone[lead.status]} className="capitalize">
-                    {lead.status}
+                  <Badge tone={leadTone[lead.status]}>
+                    {leadLabel[lead.status]}
                   </Badge>
                 </li>
               ))}
@@ -155,9 +158,10 @@ export default function ControlPanelPage() {
   );
 }
 
-function Change({ value }: { value: number | null }) {
+function Change({ value }: { value: number | null | undefined }) {
+  if (value === undefined) return null;
   if (value === null) {
-    return <p className="mt-3 text-sm text-slate-500">New this month</p>;
+    return <p className="mt-3 text-sm text-slate-500">Nuevo este mes</p>;
   }
   const up = value >= 0;
   const Icon = up ? ArrowUpRight : ArrowDownRight;
@@ -170,7 +174,7 @@ function Change({ value }: { value: number | null }) {
     >
       <Icon className="size-4" />
       {Math.abs(value).toFixed(1)}%
-      <span className="font-normal text-slate-500">vs last month</span>
+      <span className="font-normal text-slate-500">vs. mes anterior</span>
     </p>
   );
 }

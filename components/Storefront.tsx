@@ -1,37 +1,43 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Hero, type Filters } from "@/components/Hero";
+import { Hero } from "@/components/Hero";
 import { InquiryModal } from "@/components/InquiryModal";
 import { ListingGrid } from "@/components/ListingGrid";
+import { StoreBanner } from "@/components/StoreBanner";
+import { EMPTY_FILTERS, filterBoats, PUBLIC_STATUSES, type Filters } from "@/lib/boats";
 import { useCollection, useSettings } from "@/lib/firestore";
 import { isFirebaseConfigured } from "@/lib/firebase";
-import { SAMPLE_CARS } from "@/lib/sample-cars";
-import type { Car } from "@/lib/types";
+import { SAMPLE_BOATS } from "@/lib/sample-boats";
+import type { Boat } from "@/lib/types";
 
-export function Storefront({ initialType = "" }: { initialType?: string }) {
-  const [filters, setFilters] = useState<Filters>({ query: "", type: initialType, maxPrice: "" });
-  const [inquiry, setInquiry] = useState<Car | null>(null);
-  const { data, loading } = useCollection<Car>("cars", { orderByField: "createdAt" });
+export function Storefront({ initialCategory = "" }: { initialCategory?: string }) {
+  const [filters, setFilters] = useState<Filters>({ ...EMPTY_FILTERS, category: initialCategory });
+  const [inquiry, setInquiry] = useState<Boat | null>(null);
+  // Sin orderBy: combinarlo con `in` exigiría un índice compuesto; se ordena abajo.
+  const { data, loading } = useCollection<Boat>("boats", {
+    whereIn: { field: "status", values: PUBLIC_STATUSES },
+  });
   const { currency } = useSettings();
 
-  const cars = useMemo(() => {
-    const source = isFirebaseConfigured ? data : SAMPLE_CARS;
-    const query = filters.query.trim().toLowerCase();
-    const maxPrice = Number(filters.maxPrice) || Infinity;
-    return source
-      .filter((car) => car.status !== "sold")
-      .filter((car) => !filters.type || car.bodyType === filters.type)
-      .filter((car) => car.price <= maxPrice)
-      .filter((car) => !query || `${car.make} ${car.model}`.toLowerCase().includes(query))
-      .sort((a, b) => Number(b.featured) - Number(a.featured) || b.createdAt - a.createdAt);
-  }, [data, filters]);
+  const boats = useMemo(
+    () => filterBoats(isFirebaseConfigured ? data : SAMPLE_BOATS, filters),
+    [data, filters],
+  );
 
   return (
     <>
-      <Hero filters={filters} onChange={setFilters} />
-      <ListingGrid cars={cars} loading={loading} currency={currency} onInquire={setInquiry} />
-      <InquiryModal car={inquiry} onClose={() => setInquiry(null)} />
+      <Hero />
+      <ListingGrid
+        boats={boats}
+        loading={loading}
+        currency={currency}
+        filters={filters}
+        onFiltersChange={setFilters}
+        onInquire={setInquiry}
+      />
+      <StoreBanner />
+      <InquiryModal boat={inquiry} onClose={() => setInquiry(null)} />
     </>
   );
 }
