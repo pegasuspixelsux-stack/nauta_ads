@@ -31,4 +31,27 @@ const seeds: [string, Seed][] = [
   ["sample-12", { builder: "Catalina", model: "355", category: "Velero", year: 2012, price: 96000, length: 10.8, engineHours: 2100, propulsion: "Vela", flagType: "Otra", documentationStatus: "En trámite", portLocation: "Colonia", featured: false, createdAt: 0 }],
 ];
 
-export const SAMPLE_BOATS: Boat[] = seeds.map(([id, seed]) => ({ ...base, ...seed, id }));
+// Mismas fotos de Unsplash que scripts/seed-boats.mjs, en el mismo orden que `seeds`.
+const PHOTO_IDS = [
+  "1528154291023-a6525fabe5b4", // Riva Rivale 56
+  "1540946485063-a40da27545f8", // Beneteau Oceanis 46.1
+  "1552160757-52790c6f4faf", // Sea Ray SLX 310
+  "1605281317010-fe5ffe798166", // Azimut 55 Flybridge
+  "1546214755-c5d22447b43b", // Jeanneau Sun Odyssey 410
+  "1604737637145-48cc31d160eb", // Boston Whaler 280 Outrage
+  "1593351415075-3bac9f45c877", // Zodiac Medline 9
+  "1562281302-809108fd533c", // Sunseeker Predator 57
+  "1603275218135-07c03485bba9", // Bavaria Cruiser 34
+  "1535024966840-e7424dc2635b", // Fairline Squadron 50
+  "1563187867-2cd158d07999", // Sea-Doo GTX Limited 300
+  "1534296264129-b318f8140c27", // Catalina 355
+];
+
+const photo = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=1200&q=80`;
+
+export const SAMPLE_BOATS: Boat[] = seeds.map(([id, seed], index) => ({
+  ...base,
+  ...seed,
+  images: [photo(PHOTO_IDS[index])],
+  id,
+}));
