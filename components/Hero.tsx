@@ -71,16 +71,16 @@ export function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease }}
-            className="mx-auto max-w-[1400px]"
+            className="mx-auto max-w-[1400px] lg:hidden"
           >
             <ul className="grid grid-cols-5 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-5">
               {SECTIONS.map(({ label, href, icon: Icon }) => (
                 <li key={label}>
                   <Link
                     href={href}
-                    className="flex h-full flex-col items-center justify-center gap-3 rounded-2xl group border border-blue-900 bg-transparent px-2 py-4 text-center text-base font-semibold text-black transition-[background-color,border-color,transform] duration-300 ease-out-expo hover:-translate-y-1 hover:border-blue-950 hover:bg-white/40 active:scale-[0.98] sm:px-4 sm:py-6"
+                    className="flex h-full flex-col items-center justify-center gap-3 rounded-2xl group border border-blue-900 bg-blue-900 px-2 py-4 text-center text-base font-semibold text-white transition-[background-color,border-color,color,transform] duration-300 ease-out-expo hover:-translate-y-1 hover:bg-white hover:text-blue-900 active:scale-[0.98] sm:px-4 sm:py-6"
                   >
-                    <Icon className="size-7 text-blue-900 transition-colors duration-300 group-hover:text-blue-950" strokeWidth={1.5} />
+                    <Icon className="size-7 text-white transition-colors duration-300 group-hover:text-blue-900" strokeWidth={1.5} />
                     {/* Solo íconos en celular; el nombre queda para lectores de pantalla. */}
                     <span className="sr-only sm:not-sr-only">{label}</span>
                   </Link>
@@ -91,7 +91,7 @@ export function Hero() {
         </div>
       </section>
       {/* Reserva el espacio de la mitad de la caja de secciones que sobresale del hero. */}
-      <div aria-hidden className="h-12 sm:h-28 lg:h-14" />
+      <div aria-hidden className="h-12 sm:h-28 lg:hidden" />
     </>
   );
 }
