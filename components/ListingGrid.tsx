@@ -42,7 +42,7 @@ export function ListingGrid({
 
       <div id="listado" className="scroll-mt-24" />
       {loading ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
           {Array.from({ length: 6 }, (_, index) => (
             <div
               key={index}
@@ -55,7 +55,7 @@ export function ListingGrid({
           Ninguna embarcación coincide con tu búsqueda. Probá ajustando los filtros.
         </p>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
           {boats.map((boat) => (
             <BoatCard key={boat.id} boat={boat} currency={currency} onInquire={onInquire} />
           ))}

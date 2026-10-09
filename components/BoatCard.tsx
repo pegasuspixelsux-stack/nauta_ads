@@ -68,22 +68,21 @@ export function BoatCard({
           "flex shrink-0 flex-col px-5 pt-5 pb-6",
           !portrait && "sm:flex-1",
           // Versión compacta para la grilla de 2 columnas en celular.
-          portrait && "px-3 pt-3 pb-3 sm:px-5 sm:pt-5 sm:pb-6",
+          "px-3 pt-3 pb-3 sm:px-5 sm:pt-5 sm:pb-6",
         )}
       >
-        <p className={cn("text-sm font-medium text-slate-500", portrait && "hidden sm:block")}>
+        <p className="hidden text-sm font-medium text-slate-500 sm:block">
           {boat.year} · {boat.category} · {boat.condition}
         </p>
         <h3
           className={cn(
-            "mt-1 text-xl font-bold tracking-tight text-slate-100",
-            portrait && "truncate text-sm sm:text-xl",
+            "mt-1 truncate text-sm font-bold tracking-tight text-slate-100 sm:text-xl",
           )}
         >
           {boat.builder} {boat.model}
         </h3>
 
-        <ul className={cn("mt-4 flex flex-wrap gap-2", portrait && "hidden sm:flex")}>
+        <ul className="mt-4 hidden flex-wrap gap-2 sm:flex">
           {specs.map(({ icon: Icon, label }) => (
             <li
               key={label}
@@ -97,14 +96,12 @@ export function BoatCard({
 
         <div
           className={cn(
-            "mt-auto flex items-end justify-between gap-4 pt-6",
-            portrait && "items-center gap-2 pt-2 sm:items-end sm:gap-4 sm:pt-6",
+            "mt-auto flex items-center justify-between gap-2 pt-2 sm:items-end sm:gap-4 sm:pt-6",
           )}
         >
           <p
             className={cn(
-              "text-2xl font-bold tracking-tight text-slate-100",
-              portrait && "order-2 text-sm sm:order-none sm:text-2xl",
+              "order-2 text-sm font-bold tracking-tight text-slate-100 sm:order-none sm:text-2xl",
             )}
           >
             {formatCurrency(boat.price, currency)}
@@ -112,17 +109,11 @@ export function BoatCard({
           <Button
             size="sm"
             variant="secondary"
-            className={portrait ? "order-1 px-2 sm:order-none sm:px-3" : undefined}
+            className="order-1 px-2 sm:order-none sm:px-3"
             onClick={() => onInquire(boat)}
           >
-            {portrait ? (
-              <>
-                <MessageCircle className="size-4 sm:hidden" aria-hidden />
-                <span className="sr-only sm:not-sr-only">Consultar</span>
-              </>
-            ) : (
-              "Consultar"
-            )}
+            <MessageCircle className="size-4 sm:hidden" aria-hidden />
+            <span className="sr-only sm:not-sr-only">Consultar</span>
           </Button>
         </div>
       </div>
