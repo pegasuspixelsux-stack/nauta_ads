@@ -50,9 +50,10 @@ export function FilterBar({
                 onClick={() => set({ category: active ? "" : category })}
                 className={cn(
                   "rounded-full border px-4 py-1.5 text-sm font-medium transition-[background-color,color,transform] duration-200 active:scale-[0.97]",
+                  "text-white",
                   active
-                    ? "border-slate-100 bg-slate-100 text-slate-950"
-                    : "border-slate-800/80 text-slate-400 hover:bg-ink/5 hover:text-slate-100",
+                    ? "border-blue-300 bg-blue-600 ring-2 ring-blue-300/50"
+                    : "border-blue-900 bg-blue-900 hover:bg-blue-800",
                 )}
               >
                 {label}

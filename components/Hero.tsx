@@ -50,7 +50,7 @@ export function Hero() {
           >
             <span className="mb-6 inline-flex items-center rounded-full border border-white/30 bg-white/15 gap-2 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-xl">
               <Star className="size-4 fill-current" aria-hidden />
-              Explora • Navega • Descubre Uruguay &amp; El Mundo
+              Explora • Navega • Descubre Uruguay<span className="hidden sm:inline">&nbsp;&amp; El Mundo</span>
             </span>
             <h1 className="max-w-5xl text-5xl font-semibold tracking-tight text-white drop-shadow-md md:text-7xl">
               El Marketplace Náutico<br className="hidden md:block" /> de Referencia en el<br className="hidden md:block" /> <span className="text-sky-400">Río de la Plata</span>
