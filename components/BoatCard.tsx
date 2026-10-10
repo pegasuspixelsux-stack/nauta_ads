@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Anchor, MapPin, MessageCircle, Ruler, Ship } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Anchor, ArrowUpRight, MapPin, Ruler, Ship } from "lucide-react";
+import Link from "next/link";
+import { Button, buttonStyles } from "@/components/ui/button";
 import { Badge } from "@/components/ui/card";
 import { boatLabel } from "@/lib/boats";
 import { cn, formatCurrency } from "@/lib/utils";
@@ -78,7 +79,9 @@ export function BoatCard({
             "mt-1 truncate text-sm font-bold tracking-tight text-slate-100 sm:text-xl",
           )}
         >
-          {boat.builder} {boat.model}
+          <Link href={`/embarcaciones/${boat.id}`} className="hover:text-accent">
+            {boat.builder} {boat.model}
+          </Link>
         </h3>
 
         <ul className="mt-4 hidden flex-wrap gap-2 sm:flex">
@@ -105,14 +108,21 @@ export function BoatCard({
           >
             {formatCurrency(boat.price, currency)}
           </p>
+          {/* Celular: flecha en diagonal que abre la ficha de la embarcación. */}
+          <Link
+            href={`/embarcaciones/${boat.id}`}
+            aria-label={`Ver ${boatLabel(boat)}`}
+            className={cn(buttonStyles("secondary", "sm"), "order-1 px-2 sm:hidden")}
+          >
+            <ArrowUpRight className="size-4" aria-hidden />
+          </Link>
           <Button
             size="sm"
             variant="secondary"
-            className="order-1 px-2 sm:order-none sm:px-3"
+            className="hidden sm:inline-flex"
             onClick={() => onInquire(boat)}
           >
-            <MessageCircle className="size-4 sm:hidden" aria-hidden />
-            <span className="sr-only sm:not-sr-only">Consultar</span>
+            Consultar
           </Button>
         </div>
       </div>
