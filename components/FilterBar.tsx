@@ -19,7 +19,44 @@ const priceSteps = [50000, 100000, 250000, 500000, 1000000];
 
 const selectClass = "h-11 border-transparent bg-ink/5";
 
-/** Buscador, filtros y chips de categoría de la sección «Embarcaciones destacadas». */
+/** Chips de categoría (Yates, Veleros…). Alternan el filtro de tipo. */
+export function CategoryChips({
+  filters,
+  onChange,
+}: {
+  filters: Filters;
+  onChange: (filters: Filters) => void;
+}) {
+  const set = (patch: Partial<Filters>) => onChange({ ...filters, ...patch });
+
+  return (
+    <ul aria-label="Categorías" className="flex flex-wrap gap-2">
+      {CHIPS.map(({ value: category, label }) => {
+        const active = filters.category === category;
+        return (
+          <li key={category}>
+            <button
+              type="button"
+              aria-pressed={active}
+              onClick={() => set({ category: active ? "" : category })}
+              className={cn(
+                "rounded-full border px-4 py-1.5 text-sm font-medium transition-[background-color,color,transform] duration-200 active:scale-[0.97]",
+                "text-white",
+                active
+                  ? "border-white bg-accent-strong ring-2 ring-accent/50"
+                  : "border-accent bg-accent hover:bg-accent-strong",
+              )}
+            >
+              {label}
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+/** Buscador y filtros de la sección «Embarcaciones destacadas». */
 export function FilterBar({
   filters,
   onChange,
@@ -171,30 +208,6 @@ export function FilterBar({
           )}
         </AnimatePresence>
       </form>
-
-      <ul aria-label="Categorías" className="mt-4 flex flex-wrap gap-2">
-        {CHIPS.map(({ value: category, label }) => {
-          const active = filters.category === category;
-          return (
-            <li key={category}>
-              <button
-                type="button"
-                aria-pressed={active}
-                onClick={() => set({ category: active ? "" : category })}
-                className={cn(
-                  "rounded-full border px-4 py-1.5 text-sm font-medium transition-[background-color,color,transform] duration-200 active:scale-[0.97]",
-                  "text-white",
-                  active
-                    ? "border-white bg-accent-strong ring-2 ring-accent/50"
-                    : "border-accent bg-accent hover:bg-accent-strong",
-                )}
-              >
-                {label}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
     </div>
   );
 }

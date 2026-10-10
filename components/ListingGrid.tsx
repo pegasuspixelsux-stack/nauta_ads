@@ -2,7 +2,7 @@
 
 import { BoatCard } from "@/components/BoatCard";
 import Link from "next/link";
-import { FilterBar } from "@/components/FilterBar";
+import { CategoryChips, FilterBar } from "@/components/FilterBar";
 import { buttonStyles } from "@/components/ui/button";
 import type { Filters } from "@/lib/boats";
 import type { Boat } from "@/lib/types";
@@ -29,7 +29,7 @@ export function ListingGrid({
         <FilterBar filters={filters} onChange={onFiltersChange} />
       </div>
 
-      <div className="mb-10 flex items-end justify-between gap-6">
+      <div className="mb-6 flex items-end justify-between gap-6">
         <div>
           <h2 className="text-2xl font-bold tracking-tight text-slate-100 md:text-3xl">
             Embarcaciones destacadas
@@ -41,6 +41,11 @@ export function ListingGrid({
             {boats.length} {boats.length === 1 ? "embarcación" : "embarcaciones"}
           </p>
         )}
+      </div>
+
+      {/* Categorías debajo del texto de la sección y encima de la grilla. */}
+      <div className="mb-8">
+        <CategoryChips filters={filters} onChange={onFiltersChange} />
       </div>
 
       <div id="listado" className="scroll-mt-24" />
