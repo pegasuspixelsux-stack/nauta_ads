@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { Star } from "lucide-react";
 
 const HERO_PHOTO =
-  "https://images.unsplash.com/photo-1528154291023-a6525fabe5b4?auto=format&fit=crop&w=2000&q=80";
+  "https://images.unsplash.com/photo-1674606867042-2aa3581c1bb5?auto=format&fit=crop&w=2000&q=80";
 
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -33,6 +33,11 @@ export function Hero() {
           <div
             aria-hidden
             className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/35 to-transparent"
+          />
+          {/* Oscurece el lado del texto: el casco del yate es blanco, igual que el título. */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/55 via-black/25 to-transparent"
           />
           <div
             aria-hidden
