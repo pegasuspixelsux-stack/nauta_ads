@@ -12,13 +12,10 @@ export function BoatCard({
   boat,
   currency,
   onInquire,
-  portrait = false,
 }: {
   boat: Boat;
   currency: string;
   onInquire: (boat: Boat) => void;
-  /** Tarjeta 3:4 en todos los anchos (por defecto es 3:4 en celular y 1:2 desde 640 px). */
-  portrait?: boolean;
 }) {
   const specs = [
     { icon: Ruler, label: `${boat.length.toLocaleString("es-UY")} m` },
@@ -33,14 +30,12 @@ export function BoatCard({
       whileHover={{ y: -4 }}
       transition={{ type: "spring", stiffness: 300, damping: 28 }}
       className={cn(
-        "group flex aspect-[3/4] flex-col overflow-hidden rounded-2xl border border-slate-800/80 bg-surface transition-colors duration-300 hover:border-accent",
-        !portrait && "sm:aspect-[1/2]",
+        "group flex aspect-[3/4] flex-col overflow-hidden rounded-2xl border border-slate-800/80 bg-surface transition-colors duration-300 hover:border-accent sm:aspect-[4/5]",
       )}
     >
       <div
         className={cn(
           "relative min-h-0 flex-1 overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900",
-          !portrait && "sm:aspect-square sm:flex-none sm:shrink-0",
         )}
       >
         {boat.images[0] ? (
@@ -70,8 +65,7 @@ export function BoatCard({
 
       <div
         className={cn(
-          "flex shrink-0 flex-col px-5 pt-5 pb-6",
-          !portrait && "sm:flex-1",
+          "flex shrink-0 flex-col",
           // Versión compacta para la grilla de 2 columnas en celular.
           "px-3 pt-3 pb-3 sm:px-5 sm:pt-5 sm:pb-6",
         )}

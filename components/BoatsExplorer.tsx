@@ -223,7 +223,7 @@ export function BoatsExplorer({ initialCategory = "" }: { initialCategory?: stri
         ) : (
           <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3">
             {visible.map((boat) => (
-              <BoatCard key={boat.id} boat={boat} currency={currency} onInquire={setInquiry} portrait />
+              <BoatCard key={boat.id} boat={boat} currency={currency} onInquire={setInquiry} />
             ))}
           </div>
         )}

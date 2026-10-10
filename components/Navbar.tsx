@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ChevronDown, Menu, Search, X } from "lucide-react";
+import { ChevronDown, Menu, Search, ShipWheel, X } from "lucide-react";
 import { buttonStyles } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -90,10 +90,11 @@ export function Navbar({ overHero = false }: { overHero?: boolean }) {
         <Link
           href="/"
           className={cn(
-            "text-lg font-bold tracking-tight transition-colors duration-200",
+            "inline-flex items-center gap-2 text-lg font-bold tracking-tight transition-colors duration-200",
             transparent ? "text-white" : "text-slate-100",
           )}
         >
+          <ShipWheel className="size-6" strokeWidth={1.75} aria-hidden />
           Nauta
         </Link>
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ShipWheel } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 const columns = [
@@ -35,7 +36,10 @@ export function Footer() {
     <footer className="border-t border-slate-800/80">
       <div className="mx-auto grid max-w-[1440px] gap-12 px-6 py-16 md:grid-cols-[2fr_1fr_1fr_1fr]">
         <div>
-          <p className="text-lg font-bold tracking-tight text-slate-100">Nauta</p>
+          <p className="inline-flex items-center gap-2 text-lg font-bold tracking-tight text-slate-100">
+            <ShipWheel className="size-6" strokeWidth={1.75} aria-hidden />
+            Nauta
+          </p>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-400">
             El marketplace náutico del Río de la Plata: embarcaciones, motores, servicios y trámites
             en un solo lugar.
