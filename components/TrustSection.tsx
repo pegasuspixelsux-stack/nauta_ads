@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Anchor, LineChart, Scale, Users, type LucideIcon } from "lucide-react";
+import { GlowCard } from "@/components/GlowCard";
 import { buttonStyles } from "@/components/ui/button";
 
 const items: { icon: LucideIcon; title: string; text: string }[] = [
@@ -81,11 +82,14 @@ export function TrustSection() {
             </div>
             <ul className="grid w-full gap-3 sm:grid-cols-2">
               {items.map(({ icon: Icon, title, text }) => (
-                <li key={title} className="group overflow-hidden rounded-2xl border border-slate-800/80 bg-slate-950/40 p-6 transition-[transform,border-color,background-color,box-shadow] duration-300 ease-out-expo hover:-translate-y-1 hover:border-accent hover:bg-ink/5 hover:shadow-[0_0_0_1px_var(--color-accent),0_0_36px_0_color-mix(in_oklab,var(--color-accent)_55%,transparent)]">
+                <GlowCard
+                  key={title}
+                  className="overflow-hidden rounded-2xl border border-slate-800/80 bg-slate-950/40 p-6 hover:bg-ink/5"
+                >
                   <Icon className="size-6 text-accent transition-colors duration-300 group-hover:text-accent-strong" strokeWidth={1.5} />
                   <h3 className="mt-4 text-lg font-semibold tracking-tight text-slate-100">{title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-slate-400">{text}</p>
-                </li>
+                </GlowCard>
               ))}
             </ul>
           </div>
