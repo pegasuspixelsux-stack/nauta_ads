@@ -34,9 +34,9 @@ function SectionBoxes() {
           <li key={label}>
             <Link
               href={href}
-              className="flex h-full flex-col items-center justify-center gap-3 rounded-2xl group border border-blue-900 bg-blue-900 px-2 py-4 text-center text-base font-semibold text-white transition-[background-color,border-color,color,transform] duration-300 ease-out-expo hover:-translate-y-1 hover:bg-white hover:text-blue-900 active:scale-[0.98] sm:px-4 sm:py-6"
+              className="flex h-full flex-col items-center justify-center gap-3 rounded-2xl group border border-sky-600 bg-sky-600 px-2 py-4 text-center text-base font-semibold text-white transition-[background-color,border-color,color,transform] duration-300 ease-out-expo hover:-translate-y-1 hover:bg-white hover:text-sky-600 active:scale-[0.98] sm:px-4 sm:py-6"
             >
-              <Icon className="size-7 text-white transition-colors duration-300 group-hover:text-blue-900" strokeWidth={1.5} />
+              <Icon className="size-7 text-white transition-colors duration-300 group-hover:text-sky-600" strokeWidth={1.5} />
               {/* Solo íconos en celular; el nombre queda para lectores de pantalla. */}
               <span className="sr-only sm:not-sr-only">{label}</span>
             </Link>
@@ -81,7 +81,7 @@ export function Hero() {
               Explora • Navega • Descubre Uruguay<span className="hidden sm:inline">&nbsp;&amp; El Mundo</span>
             </span>
             <h1 className="max-w-5xl text-5xl font-semibold tracking-tight text-white drop-shadow-md md:text-7xl">
-              El Marketplace Náutico<br className="hidden md:block" /> de Referencia en el<br className="hidden md:block" /> <span className="text-sky-400">Río de la Plata</span>
+              El Marketplace Náutico<br className="hidden md:block" /> de Referencia en el<br className="hidden md:block" /> <span className="text-sky-600">Río de la Plata</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-white drop-shadow-md md:text-xl">
               Compra, venta y chárter de yates, veleros y catamaranes verificados con rigurosa
