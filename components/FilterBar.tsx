@@ -39,29 +39,6 @@ export function FilterBar({
 
   return (
     <div className="mb-10">
-      <ul aria-label="Categorías" className="mb-4 flex flex-wrap gap-2">
-        {CHIPS.map(({ value: category, label }) => {
-          const active = filters.category === category;
-          return (
-            <li key={category}>
-              <button
-                type="button"
-                aria-pressed={active}
-                onClick={() => set({ category: active ? "" : category })}
-                className={cn(
-                  "rounded-full border px-4 py-1.5 text-sm font-medium transition-[background-color,color,transform] duration-200 active:scale-[0.97]",
-                  "text-white",
-                  active
-                    ? "border-white bg-accent-strong ring-2 ring-accent/50"
-                    : "border-accent bg-accent hover:bg-accent-strong",
-                )}
-              >
-                {label}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
 
       <form
         role="search"
@@ -69,7 +46,7 @@ export function FilterBar({
           event.preventDefault();
           document.getElementById("listado")?.scrollIntoView({ behavior: "smooth" });
         }}
-        className="grid gap-3 rounded-3xl border border-ink/10 bg-slate-900/60 p-3 shadow-2xl backdrop-blur-xl"
+        className="grid gap-3 rounded-3xl border border-ink/10 bg-slate-900/90 p-3 shadow-2xl backdrop-blur-xl"
       >
         <div className="grid gap-3 md:grid-cols-[1fr_auto_auto]">
           <div className="relative">
@@ -191,6 +168,30 @@ export function FilterBar({
           )}
         </AnimatePresence>
       </form>
+
+      <ul aria-label="Categorías" className="mt-4 flex flex-wrap gap-2">
+        {CHIPS.map(({ value: category, label }) => {
+          const active = filters.category === category;
+          return (
+            <li key={category}>
+              <button
+                type="button"
+                aria-pressed={active}
+                onClick={() => set({ category: active ? "" : category })}
+                className={cn(
+                  "rounded-full border px-4 py-1.5 text-sm font-medium transition-[background-color,color,transform] duration-200 active:scale-[0.97]",
+                  "text-white",
+                  active
+                    ? "border-white bg-accent-strong ring-2 ring-accent/50"
+                    : "border-accent bg-accent hover:bg-accent-strong",
+                )}
+              >
+                {label}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

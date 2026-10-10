@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { MobileBar } from "@/components/MobileBar";
 import { AuthProvider } from "@/lib/auth-context";
 import "./globals.css";
 
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="min-h-full flex flex-col bg-slate-950 text-slate-100">
         <AuthProvider>{children}</AuthProvider>
+        <MobileBar />
       </body>
     </html>
   );

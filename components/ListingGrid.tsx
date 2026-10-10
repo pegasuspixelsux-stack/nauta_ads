@@ -23,7 +23,12 @@ export function ListingGrid({
   onInquire: (boat: Boat) => void;
 }) {
   return (
-    <section id="embarcaciones" className="mx-auto w-full max-w-[1440px] scroll-mt-24 px-6 py-12 md:py-16">
+    <section id="embarcaciones" className="mx-auto w-full max-w-[1440px] scroll-mt-24 px-6 pb-12 md:pb-16">
+      {/* El buscador cruza el borde del hero: la mitad queda sobre la foto, la otra mitad en esta sección. */}
+      <div className="relative z-20 -mt-[6.75rem] lg:-mt-10">
+        <FilterBar filters={filters} onChange={onFiltersChange} />
+      </div>
+
       <div className="mb-10 flex items-end justify-between gap-6">
         <div>
           <h2 className="text-2xl font-bold tracking-tight text-slate-100 md:text-3xl">
@@ -37,8 +42,6 @@ export function ListingGrid({
           </p>
         )}
       </div>
-
-      <FilterBar filters={filters} onChange={onFiltersChange} />
 
       <div id="listado" className="scroll-mt-24" />
       {loading ? (
