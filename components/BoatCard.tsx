@@ -34,7 +34,7 @@ export function BoatCard({
       whileHover={{ y: -4 }}
       transition={{ type: "spring", stiffness: 300, damping: 28 }}
       className={cn(
-        "group flex aspect-[3/4] flex-col overflow-hidden rounded-2xl border border-slate-800/80 bg-surface transition-colors duration-300 hover:border-slate-700",
+        "group flex aspect-[3/4] flex-col overflow-hidden rounded-2xl border border-slate-800/80 bg-surface transition-colors duration-300 hover:border-accent",
         !portrait && "sm:aspect-[1/2]",
       )}
     >
@@ -88,7 +88,7 @@ export function BoatCard({
               key={label}
               className="inline-flex items-center gap-1.5 rounded-full border border-slate-800/80 bg-ink/5 px-3 py-1 text-xs text-slate-300"
             >
-              <Icon className="size-3.5 text-slate-500" />
+              <Icon className="size-3.5 text-accent" />
               {label}
             </li>
           ))}

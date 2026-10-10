@@ -43,7 +43,7 @@ export function FinancingCalculator({
         id={titleId}
         className="flex items-center gap-2 text-base font-semibold tracking-tight text-slate-100"
       >
-        <Calculator className="size-4 text-slate-500" />
+        <Calculator className="size-4 text-accent" />
         Calculadora de financiación
       </h2>
 
@@ -65,7 +65,7 @@ export function FinancingCalculator({
             step={5}
             value={downPct}
             onChange={(event) => setDownPct(Number(event.target.value))}
-            className="w-full accent-slate-400"
+            className="w-full accent-accent"
           />
         </Field>
         <div className="grid grid-cols-2 gap-3">

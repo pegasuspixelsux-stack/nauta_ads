@@ -30,9 +30,9 @@ export function Highlights() {
         {items.map(({ icon: Icon, title, text }) => (
           <li
             key={title}
-            className="group rounded-2xl border border-slate-800/80 bg-surface p-6 transition-[transform,border-color] duration-300 ease-out-expo hover:-translate-y-1 hover:border-slate-600"
+            className="group rounded-2xl border border-slate-800/80 bg-surface p-6 transition-[transform,border-color] duration-300 ease-out-expo hover:-translate-y-1 hover:border-accent"
           >
-            <Icon className="size-6 text-slate-500 transition-colors duration-300 group-hover:text-slate-100" strokeWidth={1.5} />
+            <Icon className="size-6 text-accent transition-colors duration-300 group-hover:text-accent-strong" strokeWidth={1.5} />
             <h2 className="mt-4 text-lg font-semibold tracking-tight text-slate-100">{title}</h2>
             <p className="mt-2 text-sm leading-relaxed text-slate-400">{text}</p>
           </li>

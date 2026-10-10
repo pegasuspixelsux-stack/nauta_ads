@@ -11,7 +11,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
 
   return (
     <>
-      <Navbar />
+      <Navbar overHero />
       <main className="flex-1">
         {/* key resets the filters when a category link changes ?category= */}
         <Storefront key={initialCategory} initialCategory={initialCategory} />

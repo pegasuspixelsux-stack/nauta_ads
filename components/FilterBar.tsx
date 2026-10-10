@@ -52,8 +52,8 @@ export function FilterBar({
                   "rounded-full border px-4 py-1.5 text-sm font-medium transition-[background-color,color,transform] duration-200 active:scale-[0.97]",
                   "text-white",
                   active
-                    ? "border-blue-300 bg-blue-600 ring-2 ring-blue-300/50"
-                    : "border-blue-900 bg-blue-900 hover:bg-blue-800",
+                    ? "border-white bg-accent-strong ring-2 ring-accent/50"
+                    : "border-accent bg-accent hover:bg-accent-strong",
                 )}
               >
                 {label}
@@ -94,7 +94,7 @@ export function FilterBar({
             <SlidersHorizontal className="size-4" />
             Filtros
             {activeCount > 0 && (
-              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-950">
+              <span className="rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-white">
                 {activeCount}
               </span>
             )}
@@ -104,7 +104,7 @@ export function FilterBar({
             type="submit"
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            className="h-14 rounded-xl bg-slate-100 px-8 text-base font-semibold text-slate-950 transition-colors hover:bg-slate-50"
+            className="h-14 rounded-xl bg-accent px-8 text-base font-semibold text-white transition-colors hover:bg-accent-strong"
           >
             Buscar
           </motion.button>

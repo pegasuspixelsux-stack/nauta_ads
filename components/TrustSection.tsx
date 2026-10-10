@@ -35,7 +35,7 @@ export function TrustSection() {
     <section aria-labelledby="trust-title" className="border-t border-slate-800/80">
       <div className="mx-auto max-w-[1440px] px-6 py-10 md:py-14">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-medium tracking-wide text-slate-500 uppercase">
+          <p className="text-sm font-medium tracking-wide text-accent uppercase">
             Seguridad y Tradición Marítima
           </p>
           <h2
@@ -64,7 +64,7 @@ export function TrustSection() {
           <div className="flex flex-col justify-center gap-6 p-6 md:p-10">
             <div className="flex flex-col items-start gap-4">
               <div className="flex flex-col gap-2">
-                <p className="text-sm font-medium tracking-wide text-slate-500 uppercase">
+                <p className="text-sm font-medium tracking-wide text-accent uppercase">
                   Para Armadores &amp; Brokers
                 </p>
                 <h3 className="text-xl font-bold tracking-tight text-slate-100 md:text-2xl">
@@ -81,9 +81,9 @@ export function TrustSection() {
             </div>
             <ul className="grid w-full gap-3 sm:grid-cols-2">
               {items.map(({ icon: Icon, title, text }) => (
-                <li key={title} className="group overflow-hidden rounded-2xl border border-slate-800/80 bg-slate-950/40 p-3 transition-[transform,border-color,background-color] duration-300 ease-out-expo hover:-translate-y-1 hover:border-slate-600 hover:bg-ink/5 sm:aspect-[2/1]">
+                <li key={title} className="group overflow-hidden rounded-2xl border border-slate-800/80 bg-slate-950/40 p-3 transition-[transform,border-color,background-color] duration-300 ease-out-expo hover:-translate-y-1 hover:border-accent hover:bg-ink/5 sm:aspect-[2/1]">
                   <div className="flex flex-col items-start gap-2">
-                    <Icon className="size-5 shrink-0 text-slate-500 transition-colors duration-300 group-hover:text-slate-100" strokeWidth={1.5} />
+                    <Icon className="size-5 shrink-0 text-accent transition-colors duration-300 group-hover:text-accent-strong" strokeWidth={1.5} />
                     <h3 className="text-sm font-semibold tracking-tight text-slate-100">{title}</h3>
                   </div>
                   <p className="mt-1 text-xs leading-snug text-slate-400">{text}</p>

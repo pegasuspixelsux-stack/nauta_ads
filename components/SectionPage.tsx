@@ -31,9 +31,9 @@ export function SectionPage({
           {items.map(({ icon: Icon, title: itemTitle, text }) => (
             <li
               key={itemTitle}
-              className="rounded-2xl border border-slate-800/80 bg-surface p-6 transition-colors hover:border-slate-700"
+              className="rounded-2xl border border-slate-800/80 bg-surface p-6 transition-colors hover:border-accent"
             >
-              <Icon className="size-6 text-slate-500" strokeWidth={1.5} />
+              <Icon className="size-6 text-accent" strokeWidth={1.5} />
               <h2 className="mt-4 text-lg font-semibold tracking-tight text-slate-100">{itemTitle}</h2>
               <p className="mt-2 text-sm leading-relaxed text-slate-400">{text}</p>
             </li>

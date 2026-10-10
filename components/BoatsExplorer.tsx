@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChevronDown, Search, SlidersHorizontal } from "lucide-react";
 import { BoatCard } from "@/components/BoatCard";
 import { FinancingCalculator } from "@/components/FinancingCalculator";
@@ -40,6 +40,20 @@ export function BoatsExplorer({ initialCategory = "" }: { initialCategory?: stri
     whereIn: { field: "status", values: PUBLIC_STATUSES },
   });
   const { currency } = useSettings();
+
+  // El buscador de la barra superior pide abrir el panel plegado (celular) y enfocar el campo.
+  useEffect(() => {
+    const onOpenSearch = () => {
+      setPanelOpen(true);
+      requestAnimationFrame(() => {
+        const input = document.getElementById("search-input");
+        input?.scrollIntoView({ behavior: "smooth", block: "center" });
+        input?.focus({ preventScroll: true });
+      });
+    };
+    window.addEventListener("nauta:open-search", onOpenSearch);
+    return () => window.removeEventListener("nauta:open-search", onOpenSearch);
+  }, []);
 
   const boats = useMemo(
     () => filterBoats(isFirebaseConfigured ? data : SAMPLE_BOATS, filters),
@@ -83,7 +97,7 @@ export function BoatsExplorer({ initialCategory = "" }: { initialCategory?: stri
               <SlidersHorizontal className="size-4" />
               Búsqueda avanzada
               {activeCount > 0 && (
-                <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-950">
+                <span className="rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-white">
                   {activeCount}
                 </span>
               )}

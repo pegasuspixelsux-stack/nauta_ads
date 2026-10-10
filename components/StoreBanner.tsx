@@ -9,12 +9,12 @@ export function StoreBanner() {
   return (
     <section
       aria-labelledby="store-banner-title"
-      className="w-full bg-blue-950 text-white"
+      className="w-full bg-accent text-white"
     >
       {/* Los colores van fijos (no usan la escala slate) para que el banner sea azul en ambos temas. */}
       <div className="mx-auto grid max-w-[1440px] items-center gap-8 px-6 py-12 md:px-12 lg:grid-cols-2">
         <div className="space-y-4">
-          <span className="inline-block rounded-full border border-blue-400/20 bg-blue-600/30 px-3 py-1 text-xs font-semibold tracking-wider text-blue-300 uppercase">
+          <span className="inline-block rounded-full border border-white/30 bg-white/15 px-3 py-1 text-xs font-semibold tracking-wider text-white uppercase">
             Equipamiento &amp; Suministros
           </span>
           <h2
@@ -23,7 +23,7 @@ export function StoreBanner() {
           >
             Cabullería, Fondeo y Herrajes de Alta Mar
           </h2>
-          <p className="text-base leading-relaxed text-blue-100/80 sm:text-lg">
+          <p className="text-base leading-relaxed text-white/90 sm:text-lg">
             Todo lo que tu velero o yate necesita en un solo lugar: cabos de altas prestaciones
             (drizas y escotas), cadenas calibradas, anclas de máxima sujeción y herrajes en acero
             inoxidable 316 para resistir las exigencias de la navegación moderna.
@@ -31,14 +31,14 @@ export function StoreBanner() {
           <div className="pt-4">
             <Link
               href="/motores"
-              className={`${buttonStyles("primary", "lg")} !bg-white !text-blue-950 hover:!bg-blue-50`}
+              className={`${buttonStyles("primary", "lg")} !bg-white !text-accent hover:!bg-sky-50`}
             >
               Explorar Catálogo de Tienda
             </Link>
           </div>
         </div>
 
-        <div className="relative h-64 w-full overflow-hidden rounded-xl border border-blue-500/20 bg-slate-800 shadow-2xl sm:h-80 lg:h-96">
+        <div className="relative h-64 w-full overflow-hidden rounded-xl border border-white/30 bg-sky-800 shadow-2xl sm:h-80 lg:h-96">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={photo}

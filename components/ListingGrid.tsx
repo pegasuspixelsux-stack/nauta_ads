@@ -63,7 +63,7 @@ export function ListingGrid({
       )}
 
       <div className="mt-10 flex justify-center">
-        <Link href="/embarcaciones" className={buttonStyles("secondary", "lg")}>
+        <Link href="/embarcaciones" className={buttonStyles("primary", "lg")}>
           Ver todas las embarcaciones
         </Link>
       </div>

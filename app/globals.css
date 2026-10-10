@@ -10,6 +10,9 @@
   --color-surface: rgb(15 23 42 / 0.4);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  /* Azul de acento del sitio: igual en tema claro y oscuro. */
+  --color-accent: #075985;
+  --color-accent-strong: #0c4a6e;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
