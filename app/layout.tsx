@@ -14,9 +14,24 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://nautaads.vercel.app";
+const description =
+  "Yates, veleros, lanchas, motores y servicios náuticos nuevos y usados. Marketplace y directorio náutico del Río de la Plata.";
+
 export const metadata: Metadata = {
-  title: "Nauta · Marketplace náutico",
-  description: "Yates, veleros, lanchas, motores y servicios náuticos nuevos y usados. Marketplace y directorio náutico del Río de la Plata.",
+  // Base para resolver la URL absoluta de la imagen que leen WhatsApp y las redes.
+  metadataBase: new URL(siteUrl),
+  title: "Nauta · Marketplace & Directorio Náutico",
+  description,
+  // La imagen sale de app/opengraph-image.tsx; el favicon, de app/icon.svg.
+  openGraph: {
+    title: "Nauta · Marketplace Náutico",
+    description,
+    siteName: "Nauta",
+    locale: "es_UY",
+    type: "website",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 // Runs before first paint so the saved (or system) theme never flashes the wrong colors.
