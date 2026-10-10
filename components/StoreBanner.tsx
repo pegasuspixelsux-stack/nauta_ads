@@ -2,7 +2,7 @@ import Link from "next/link";
 import { buttonStyles } from "@/components/ui/button";
 
 const photo =
-  "https://images.unsplash.com/photo-1635740579241-8f5c18c75786?auto=format&fit=crop&w=1200&q=80";
+  "https://images.unsplash.com/photo-1761382903549-0155790d3c67?auto=format&fit=crop&w=1200&q=80";
 
 /** Banner publicitario de la tienda náutica: cabullería, fondeo y herrajes. */
 export function StoreBanner() {
@@ -42,9 +42,9 @@ export function StoreBanner() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={photo}
-            alt="Ancla y cabo náuticos"
+            alt="Tienda náutica frente al puerto, con embarcaciones amarradas"
             loading="lazy"
-            className="size-full object-cover transition-transform duration-500 hover:scale-105"
+            className="size-full object-cover object-[center_68%] transition-transform duration-500 hover:scale-105"
           />
         </div>
       </div>
