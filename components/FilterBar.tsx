@@ -48,7 +48,7 @@ export function FilterBar({
         }}
         className="grid gap-3 rounded-3xl border border-ink/10 bg-slate-900/90 p-3 shadow-2xl backdrop-blur-xl"
       >
-        <div className="grid gap-3 md:grid-cols-[1fr_auto_auto]">
+        <div className="grid grid-cols-[1fr_auto_auto] gap-2 md:gap-3">
           <div className="relative">
             <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-slate-500" />
             <Input
@@ -56,7 +56,7 @@ export function FilterBar({
               type="search"
               value={filters.query}
               onChange={(event) => set({ query: event.target.value })}
-              placeholder="Buscá por astillero o modelo: Sea Ray, Beneteau, Riva…"
+              placeholder="Astillero o modelo…"
               aria-label="Buscar astillero o modelo"
               className="h-14 border-transparent bg-ink/5 pl-12 text-base"
             />
@@ -66,24 +66,27 @@ export function FilterBar({
             onClick={() => setOpen((value) => !value)}
             aria-expanded={open}
             aria-controls="filtros-avanzados"
-            className="inline-flex h-14 items-center justify-center gap-2 rounded-xl border border-slate-800/80 bg-ink/5 px-6 text-base font-medium text-slate-100 transition-[background-color,transform] duration-200 hover:bg-ink/10 active:scale-[0.98]"
+            aria-label="Filtros"
+            className="inline-flex h-14 items-center justify-center gap-2 rounded-xl border border-slate-800/80 bg-ink/5 px-4 text-base md:px-6 font-medium text-slate-100 transition-[background-color,transform] duration-200 hover:bg-ink/10 active:scale-[0.98]"
           >
             <SlidersHorizontal className="size-4" />
-            Filtros
+            <span className="hidden md:inline">Filtros</span>
             {activeCount > 0 && (
               <span className="rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-white">
                 {activeCount}
               </span>
             )}
-            <ChevronDown className={cn("size-4 transition-transform duration-200", open && "rotate-180")} />
+            <ChevronDown className={cn("hidden size-4 transition-transform duration-200 md:block", open && "rotate-180")} />
           </button>
           <motion.button
             type="submit"
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            className="h-14 rounded-xl bg-accent px-8 text-base font-semibold text-white transition-colors hover:bg-accent-strong"
+            aria-label="Buscar"
+            className="inline-flex h-14 items-center justify-center rounded-xl bg-accent px-4 text-base font-semibold text-white transition-colors hover:bg-accent-strong md:px-8"
           >
-            Buscar
+            <Search className="size-5 md:hidden" aria-hidden />
+            <span className="hidden md:inline">Buscar</span>
           </motion.button>
         </div>
 

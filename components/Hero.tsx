@@ -39,7 +39,7 @@ export function Hero() {
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,color-mix(in_oklab,var(--color-slate-700)_55%,transparent),transparent),linear-gradient(to_bottom,transparent_60%,var(--color-slate-950))]"
           />
         </div>
-        <div className="relative mx-auto w-full max-w-[1440px] px-6 pt-28 pb-32 text-left md:pt-32 md:pb-24">
+        <div className="relative mx-auto w-full max-w-[1440px] px-6 pt-28 pb-20 text-left md:pt-32 md:pb-24">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
