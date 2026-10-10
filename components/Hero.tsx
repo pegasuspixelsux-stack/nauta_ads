@@ -15,7 +15,7 @@ const ease = [0.16, 1, 0.3, 1] as const;
 export function Hero() {
   return (
     <>
-      <section className="relative z-10 border-b border-slate-800/80 flex min-h-[90dvh] items-center">
+      <section className="relative z-10 border-b border-slate-800/80 flex min-h-[80dvh] items-center">
         <div aria-hidden className="absolute inset-0 overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
