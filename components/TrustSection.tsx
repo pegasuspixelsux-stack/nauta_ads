@@ -81,12 +81,10 @@ export function TrustSection() {
             </div>
             <ul className="grid w-full gap-3 sm:grid-cols-2">
               {items.map(({ icon: Icon, title, text }) => (
-                <li key={title} className="group overflow-hidden rounded-2xl border border-slate-800/80 bg-slate-950/40 p-3 transition-[transform,border-color,background-color] duration-300 ease-out-expo hover:-translate-y-1 hover:border-accent hover:bg-ink/5 sm:aspect-[2/1]">
-                  <div className="flex flex-col items-start gap-2">
-                    <Icon className="size-5 shrink-0 text-accent transition-colors duration-300 group-hover:text-accent-strong" strokeWidth={1.5} />
-                    <h3 className="text-sm font-semibold tracking-tight text-slate-100">{title}</h3>
-                  </div>
-                  <p className="mt-1 text-xs leading-snug text-slate-400">{text}</p>
+                <li key={title} className="group overflow-hidden rounded-2xl border border-slate-800/80 bg-slate-950/40 p-6 transition-[transform,border-color,background-color,box-shadow] duration-300 ease-out-expo hover:-translate-y-1 hover:border-accent hover:bg-ink/5 hover:shadow-[0_0_0_1px_var(--color-accent),0_0_36px_0_color-mix(in_oklab,var(--color-accent)_55%,transparent)]">
+                  <Icon className="size-6 text-accent transition-colors duration-300 group-hover:text-accent-strong" strokeWidth={1.5} />
+                  <h3 className="mt-4 text-lg font-semibold tracking-tight text-slate-100">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-400">{text}</p>
                 </li>
               ))}
             </ul>
