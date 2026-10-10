@@ -56,7 +56,7 @@ export function ThemeToggle({ className }: { className?: string }) {
             "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium",
             "transition-[background-color,color,transform] duration-200 ease-out-expo active:scale-[0.97]",
             theme === value
-              ? "bg-slate-100 text-slate-950"
+              ? "bg-accent text-white"
               : "text-slate-400 hover:text-slate-100",
           )}
         >
