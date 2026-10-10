@@ -51,9 +51,9 @@ export function TrustSection() {
           </p>
         </div>
 
-        <div className="mt-8 grid overflow-hidden rounded-3xl border border-slate-800/80 bg-surface md:min-h-[440px] md:grid-cols-2">
-          {/* La foto llena toda la altura del panel pero no la define: la altura la da el texto. */}
-          <div className="relative h-40 md:h-auto">
+        <div className="mt-8 grid gap-6 md:min-h-[440px] md:grid-cols-2">
+          {/* Dos cajas lado a lado: la foto llena la suya, pero la altura la da la caja del texto. */}
+          <div className="relative aspect-square overflow-hidden rounded-3xl border border-slate-800/80 bg-surface md:aspect-auto">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={photo}
@@ -62,8 +62,8 @@ export function TrustSection() {
               className="absolute inset-0 size-full object-cover"
             />
           </div>
-          <div className="flex flex-col justify-center gap-6 p-6 md:p-10">
-            <div className="flex flex-col items-start gap-4">
+          <div className="flex flex-col justify-center gap-6 md:py-4">
+            <div className="flex flex-col items-start gap-4 text-left">
               <div className="flex flex-col gap-2">
                 <p className="text-sm font-medium tracking-wide text-accent uppercase">
                   Para Armadores &amp; Brokers
