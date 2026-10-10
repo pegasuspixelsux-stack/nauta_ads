@@ -80,7 +80,7 @@ export function Navbar({ overHero = false }: { overHero?: boolean }) {
         overHero ? "fixed inset-x-0" : "sticky",
         "top-0 z-40 border-b transition-[background-color,border-color] duration-300",
         transparent
-          ? "border-transparent bg-transparent"
+          ? "border-white/20 bg-transparent"
           : open
             ? "border-slate-800/80 bg-slate-950"
             : "border-slate-800/80 bg-slate-950/70 backdrop-blur-xl",

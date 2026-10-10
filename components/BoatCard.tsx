@@ -23,7 +23,6 @@ export function BoatCard({
   const specs = [
     { icon: Ruler, label: `${boat.length.toLocaleString("es-UY")} m` },
     { icon: Anchor, label: boat.propulsion },
-    { icon: MapPin, label: boat.portLocation },
   ].filter((spec) => spec.label);
 
   return (
@@ -57,7 +56,13 @@ export function BoatCard({
             <Ship className="size-14" strokeWidth={1.25} />
           </div>
         )}
-        <div className="absolute top-3 left-3 flex gap-2">
+        {boat.portLocation && (
+          <Badge className="absolute top-2 left-2 max-w-[calc(100%-1rem)] gap-1 border-white/30 bg-black/50 text-white backdrop-blur-xl sm:top-3 sm:left-3">
+            <MapPin className="size-3 shrink-0" aria-hidden />
+            <span className="truncate">{boat.portLocation}</span>
+          </Badge>
+        )}
+        <div className="absolute right-2 bottom-2 flex gap-2 sm:top-3 sm:right-3 sm:bottom-auto">
           {boat.featured && <Badge className="bg-slate-950/60 backdrop-blur-xl">Destacada</Badge>}
           {boat.status === "reserved" && <Badge tone="amber">Reservada</Badge>}
         </div>
