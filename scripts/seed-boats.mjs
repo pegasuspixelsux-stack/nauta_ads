@@ -57,6 +57,14 @@ const PHOTOS = {
   "pendiente-yamaha-242x": "1585000962552-70f0a67223d9",
 };
 
+// Avisos de broker: el resto lo ofrece su propietario.
+const BROKERS = {
+  "riva-rivale-56": "Marbella Yachts",
+  "azimut-55-flybridge": "Miami Marine Group",
+  "sunseeker-predator-57": "Marbella Yachts",
+  "fairline-squadron-50": "Punta Yachting",
+};
+
 const HOUR = 60 * 60 * 1000;
 const now = Date.now();
 const batch = db.batch();
@@ -87,7 +95,8 @@ boats.forEach(
       featured,
       images: [photo(PHOTOS[id])],
       imagePaths: [],
-      plan: "individual",
+      plan: BROKERS[id] ? "broker_fleet" : "individual",
+      brokerName: BROKERS[id] ?? "",
       paid: !pending,
       paymentUrl: status === "awaiting_payment" ? "https://example.com/pago" : "",
       // Más nuevo primero, separados una hora para que el panel tenga un orden real.

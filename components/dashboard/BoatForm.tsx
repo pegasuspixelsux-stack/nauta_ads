@@ -28,6 +28,7 @@ const STATUSES = Object.keys(STATUS_LABEL) as BoatStatus[];
 export function BoatForm({ boat, onDone }: { boat: Boat | null; onDone: () => void }) {
   const [status, setStatus] = useState<BoatStatus>(boat?.status ?? "pending_review");
   const [plan, setPlan] = useState<ListingPlan>(boat?.plan ?? "individual");
+  const [brokerName, setBrokerName] = useState(boat?.brokerName ?? "");
   const [paid, setPaid] = useState(boat?.paid ?? false);
   const [paymentUrl, setPaymentUrl] = useState(boat?.paymentUrl ?? "");
   const [featured, setFeatured] = useState(boat?.featured ?? false);
@@ -110,6 +111,7 @@ export function BoatForm({ boat, onDone }: { boat: Boat | null; onDone: () => vo
         images: images.map((image) => image.url),
         imagePaths: images.map((image) => image.path),
         plan,
+        brokerName: plan === "broker_fleet" ? brokerName.trim() : "",
         paid,
         paymentUrl: paymentUrl.trim(),
         createdAt: boat?.createdAt ?? Date.now(),
@@ -279,6 +281,11 @@ export function BoatForm({ boat, onDone }: { boat: Boat | null; onDone: () => vo
             ))}
           </Select>
         </Field>
+        {plan === "broker_fleet" && (
+          <Field label="Nombre del broker o agencia" hint="Se muestra en el aviso como «Ofrecido por»." className="sm:col-span-2">
+            <Input value={brokerName} maxLength={100} onChange={(event) => setBrokerName(event.target.value)} />
+          </Field>
+        )}
         <Field label="Estado">
           <Select value={status} onChange={(event) => setStatus(event.target.value as BoatStatus)}>
             {STATUSES.map((value) => (

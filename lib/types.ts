@@ -30,6 +30,8 @@ export interface Boat {
   images: string[];
   imagePaths: string[];
   plan: ListingPlan;
+  /** Nombre público del broker o agencia (solo plan de flota). Vacío = ofrece el propietario. */
+  brokerName?: string;
   paid: boolean;
   /** Link de pago que el administrador envía al anunciante tras la revisión. */
   paymentUrl: string;

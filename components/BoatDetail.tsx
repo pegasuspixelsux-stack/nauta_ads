@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { doc, getDoc } from "firebase/firestore";
-import { ArrowLeft, MapPin, Ship } from "lucide-react";
+import { ArrowLeft, Briefcase, MapPin, Ship, UserRound } from "lucide-react";
 import { InquiryForm } from "@/components/InquiryForm";
 import { Badge } from "@/components/ui/card";
 import { buttonStyles } from "@/components/ui/button";
@@ -58,6 +58,12 @@ export function BoatDetail({ id }: { id: string }) {
       </div>
     );
   }
+
+  const isBroker = boat.plan === "broker_fleet";
+  const seller = {
+    broker: isBroker,
+    name: isBroker ? boat.brokerName?.trim() || "Broker verificado" : "Propietario",
+  };
 
   const specs: [string, string][] = [
     ["Tipo", boat.category],
@@ -134,6 +140,20 @@ export function BoatDetail({ id }: { id: string }) {
           <p className="mt-6 text-4xl font-bold tracking-tight text-slate-100">
             {formatCurrency(boat.price, currency)}
           </p>
+          {/* Quién ofrece: el propietario o un broker. El contacto personal nunca se publica. */}
+          <div className="mt-6 flex items-center gap-4 rounded-2xl border border-slate-800/80 bg-surface p-4">
+            <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
+              {seller.broker ? <Briefcase className="size-5" /> : <UserRound className="size-5" />}
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs font-medium tracking-wide text-slate-500 uppercase">Ofrecido por</p>
+              <p className="truncate font-semibold text-slate-100">{seller.name}</p>
+              <p className="text-xs text-slate-500">
+                {seller.broker ? "Broker · " : ""}Aviso revisado por Nauta
+              </p>
+            </div>
+          </div>
+
           <a href="#contacto" className={cn(buttonStyles("primary", "lg"), "mt-6 w-full")}>
             Consultar por esta embarcación
           </a>

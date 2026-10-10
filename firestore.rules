@@ -45,6 +45,9 @@ service cloud.firestore {
                     && request.resource.data.description.size() <= 5000
                     && request.resource.data.price is number
                     && request.resource.data.length is number
+                    && (!('brokerName' in request.resource.data)
+                        || (request.resource.data.brokerName is string
+                            && request.resource.data.brokerName.size() <= 100))
                     && request.resource.data.images is list
                     && request.resource.data.images.size() <= 12
                     && request.resource.data.soldAt == null;

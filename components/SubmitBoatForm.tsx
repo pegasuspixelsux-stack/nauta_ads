@@ -83,6 +83,7 @@ export function SubmitBoatForm() {
         images: images.map((image) => image.url),
         imagePaths: images.map((image) => image.path),
         plan,
+        brokerName: plan === "broker_fleet" ? text("brokerName") : "",
         paid: false,
         paymentUrl: "",
         createdAt: Date.now(),
@@ -210,6 +211,15 @@ export function SubmitBoatForm() {
             ))}
           </Select>
         </Field>
+        {plan === "broker_fleet" && (
+          <Field
+            label="Nombre del broker o agencia"
+            hint="Se muestra en el aviso como «Ofrecido por»."
+            className="sm:col-span-2"
+          >
+            <Input name="brokerName" required maxLength={100} />
+          </Field>
+        )}
         <Field label="Descripción" className="sm:col-span-2">
           <Textarea name="description" placeholder="Equipamiento, mantenimiento, historial…" />
         </Field>
